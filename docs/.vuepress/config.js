@@ -10,7 +10,7 @@ module.exports = {
     // 搜索框右侧的内容配置
     nav: [
       { text: '首页', link: '/' },
-      { text: '算法笔记', link: '/algorithm' },
+      { text: '前端监控笔记', link: '/monitor' },
       { text: 'Node笔记', link: '/node' },
       { text: '正则(RegExp)笔记', link: '/regexp' },
       { text: 'Typescript笔记', link: '/typescript' },
