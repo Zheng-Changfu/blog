@@ -2,14 +2,18 @@
   "name": "notes",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/sunshine-cxh/notes.git",
   "author": "Zheng-Changfu",
   "license": "MIT",
   "scripts": {
     "start": "vuepress dev docs",
-    "build": "vuepress build docs"
+    "build": "vuepress build docs",
+    "publish": "node build/deploy.js"
   },
   "dependencies": {
     "vuepress": "^1.8.2"
+  },
+  "devDependencies": {
+    "kolorist": "^1.5.1",
+    "node-ssh": "^12.0.4"
   }
 }
