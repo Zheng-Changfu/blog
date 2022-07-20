@@ -2,6 +2,7 @@ const { useCommand } = require("./hooks/useCommand");
 const { useConfig } = require("./hooks/useConfig");
 const { useNodeSSH } = require("./hooks/useNodeSSH");
 const { useUpload } = require("./hooks/useUpload");
+const { yellow, blue } = require('kolorist')
 
 const { getSSHConfig, getDistPath, getNginxPath } = useConfig();
 const { login, getSSH } = useNodeSSH({ getSSHConfig });
@@ -37,4 +38,8 @@ const startDeploy = async (deployList, index = 0) => {
   await task();
   return startDeploy(deployList, index + 1);
 };
-startDeploy(deployList);
+startDeploy(deployList).then(() => {
+  console.log()
+  console.log(yellow(`部署成功: 链接 ${blue('http://chengxiaohui.com')}`))
+  process.exit()
+})

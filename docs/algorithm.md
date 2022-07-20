@@ -200,3 +200,38 @@ function findTwoOddNum(arr: number[]): [number, number] {
   return [oddOne, oddTwo];
 }
 ```
+
+#### 2.3 一个数组中有一种数出现K次，其他数都出现了M次，M > 1,  K < M,找到出现了K次的数，要求，额外空间复杂度O(1)，时间复杂度O(N)
+
+解题思路:
+
+  1. 把每个数都看成二进制
+  2. 准备一个32长度的数组,将每个二进制数字对应的位叠加到数组中,得到arr(里面每一位都是一个二进制数字位1的叠加)如[1,4,6,...],arr[0] = 有1个二进制位为1的数字,arr[1] = 有4个二进制位为1的数字,arr[2] = 有6个二进制位为1的数字
+  3. 遍历arr,看当前 数字 % m === 0,如果等于0,说明当前这个索引上出现k次的数是0,否则为1
+  4. 将1对应的索引通过 | 运算 添加到结果中去
+
+```typescript
+function findKNum(arr: number[], K: number, M: number): number {
+  const statArr = Array(32).fill(0); // statArr 只有32个长度，所以是 O1
+
+  for (let i = 0; i < arr.length; i++) {
+    const num = arr[i];
+    for (let j = 0; j < 32; j++) {
+      if (((1 << j) & num) !== 0) {
+        statArr[j]++;
+      }
+    }
+  }
+
+  let res = 0;
+  for (let i = 0; i < statArr.length; i++) {
+    const stat = statArr[i];
+    if (stat % M !== 0) {
+      res |= 1 << i;
+    }
+  }
+  return res;
+}
+const r = findKNum([3, 3, 3, 2, 4, 6, 4, 2, 6], 3, 2);
+console.log(r, "r");
+```

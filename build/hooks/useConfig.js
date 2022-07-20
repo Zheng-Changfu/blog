@@ -3,10 +3,10 @@ const path = require("path");
 const useConfig = () => {
   const getSSHConfig = () => {
     return {
-      host: "root",
+      host: "1.15.51.4",
       port: 22,
       username: "root",
-      password: "root",
+      password: "ZhengChangfu~123",
     };
   };
 
