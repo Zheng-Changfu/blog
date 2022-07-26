@@ -1,14 +1,10 @@
 # 算法学习
 
-## 1. 异或运算
+## 一. 异或运算
 
-### 1. 前置知识
-
-#### 1.1 理解
+### 1. 规律提炼
 
 > 无进位相加
-
-#### 1.2 规律提炼
 
 1. 0 ^ N = N
 2. N ^ N = 0
@@ -16,7 +12,7 @@
 4. A ^ B ^ C  = C ^ A ^ B
 5. A ^ B = F , A = F ^ B , B = F ^ A
 
-#### 1.3 技巧
+### 2. 技巧
 
 1. 交换两个变量的值
 
@@ -74,9 +70,7 @@ console.log(res) // 26
  */
 ```
 
-### 2. coding
-
-#### 2.1 一个数组中有一种数出现了奇数次，其他数都出现了偶数次，怎么找到并打印这种数
+### 3. 一个数组中有一种数出现了奇数次，其他数都出现了偶数次，怎么找到并打印这种数
 
 ```typescript
 function findOddNum(arr: number[]): number {
@@ -171,7 +165,7 @@ test().exec(findOddNum);
 console.log("测试结束");
 ```
 
-#### 2.2 一个数组中有两种数出现了奇数次，其他数都出现了偶数次，怎么找到并打印这两种数
+### 4. 一个数组中有两种数出现了奇数次，其他数都出现了偶数次，怎么找到并打印这两种数
 
 解题思路:
 
@@ -201,7 +195,7 @@ function findTwoOddNum(arr: number[]): [number, number] {
 }
 ```
 
-#### 2.3 一个数组中有一种数出现K次，其他数都出现了M次，M > 1,  K < M,找到出现了K次的数，要求，额外空间复杂度O(1)，时间复杂度O(N)
+### 5. 一个数组中有一种数出现K次，其他数都出现了M次，M > 1,  K < M,找到出现了K次的数，要求，额外空间复杂度O(1)，时间复杂度O(N)
 
 解题思路:
 
@@ -234,4 +228,382 @@ function findKNum(arr: number[], K: number, M: number): number {
 }
 const r = findKNum([3, 3, 3, 2, 4, 6, 4, 2, 6], 3, 2);
 console.log(r, "r");
+```
+
+
+## 二. 链表
+### 1. 输入链表头节点，奇数长度返回中点，偶数长度返回上中点
+
+示例:
+
+1. 链表:1->2->3->null,返回2
+2. 链表:1->2->3->4->null,返回2
+
+```typescript
+class Node {
+  public val: number;
+  public next: Node | null;
+  constructor(val?: number, next?: Node | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+function linkedList1(head: Node): Node | null {
+  if (!head) return null;
+  let slow = head;
+  let fast = head;
+  // 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> null
+  // slow = 1,fast = 1,head = 1
+  // slow = 2,fast = 3,head = 2
+  // slow = 3,fast = 5,head = 3
+
+  while (fast.next !== null && fast.next.next !== null) {
+    slow = slow.next!;
+    fast = fast.next.next;
+  }
+  return slow;
+}
+
+const head1 = new Node(1);
+head1.next = new Node(2);
+head1.next.next = new Node(3);
+console.log(linkedList1(head1));
+
+const head2 = new Node(1);
+head2.next = new Node(2);
+head2.next.next = new Node(3);
+head2.next.next.next = new Node(4);
+head2.next.next.next.next = new Node(5);
+head2.next.next.next.next.next = new Node(6);
+console.log(linkedList1(head2));
+
+```
+### 2. 输入链表头节点，奇数长度返回中点，偶数长度返回下中点
+
+示例:
+
+1. 链表:1->2->3->null,返回2
+2. 链表:1->2->3->4->5->6->null,返回4
+
+```typescript
+class Node {
+  public val: number;
+  public next: Node | null;
+  constructor(val?: number, next?: Node | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+function linkedList1(head: Node): Node | null {
+  if (!head) return null;
+  let slow = head;
+  let fast = head;
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next!;
+    fast = fast.next.next!;
+  }
+  return slow;
+}
+
+const head1 = new Node(1);
+head1.next = new Node(2);
+head1.next.next = new Node(3);
+console.log(linkedList1(head1));
+
+const head2 = new Node(1);
+head2.next = new Node(2);
+head2.next.next = new Node(3);
+head2.next.next.next = new Node(4);
+head2.next.next.next.next = new Node(5);
+head2.next.next.next.next.next = new Node(6);
+console.log(linkedList1(head2));
+
+```
+### 3. 输入链表头节点，奇数长度返回中点前一个，偶数长度返回上中点前一个
+
+示例:
+
+1. 链表:1->2->3->null,返回1
+2. 链表:1->2->3->4->5->6->null,返回2
+
+```typescript
+class Node {
+  public val: number;
+  public next: Node | null;
+  constructor(val?: number, next?: Node | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+function linkedList1(head: Node): Node | null {
+  if (!head) return null;
+  let pre = null;
+  let slow = head;
+  let fast = head;
+
+  while (fast.next !== null && fast.next.next !== null) {
+    pre = slow;
+    slow = slow.next!;
+    fast = fast.next.next;
+  }
+  return pre;
+}
+
+const head1 = new Node(1);
+head1.next = new Node(2);
+head1.next.next = new Node(3);
+console.log(linkedList1(head1));
+
+const head2 = new Node(1);
+head2.next = new Node(2);
+head2.next.next = new Node(3);
+head2.next.next.next = new Node(4);
+head2.next.next.next.next = new Node(5);
+head2.next.next.next.next.next = new Node(6);
+console.log(linkedList1(head2));
+
+```
+### 4. 输入链表头节点，奇数长度返回中点前一个，偶数长度返回下中点前一个
+
+示例:
+
+1. 链表:1->2->3->4->5->null,返回2
+2. 链表:1->2->3->4->5->6->null,返回3
+
+```typescript
+class Node {
+  public val: number;
+  public next: Node | null;
+  constructor(val?: number, next?: Node | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+function linkedList1(head: Node): Node | null {
+  if (!head) return null;
+  let pre = null;
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    pre = slow;
+    slow = slow.next!;
+    fast = fast.next.next!;
+  }
+  return pre;
+}
+
+const head1 = new Node(1);
+head1.next = new Node(2);
+head1.next.next = new Node(3);
+head1.next.next.next = new Node(4);
+head1.next.next.next.next = new Node(5);
+console.log(linkedList1(head1));
+
+const head2 = new Node(1);
+head2.next = new Node(2);
+head2.next.next = new Node(3);
+head2.next.next.next = new Node(4);
+head2.next.next.next.next = new Node(5);
+head2.next.next.next.next.next = new Node(6);
+console.log(linkedList1(head2));
+
+```
+### 5. [给定一个单链表的头节点head，请判断该链表是否为回文结构](https://leetcode.cn/problems/palindrome-linked-list/)
+
+解题思路:
+
+1. 奇数链表找到中点,偶数链表找到(上中点或者下中点)
+2. 反转中点到尾部的链表
+3. 头指针尾指针开始遍历
+
+```typescript
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+function isPalindrome(head: ListNode | null): boolean {
+  if (!head) return false;
+  let slow = head;
+  let fast = head;
+
+  while (fast.next !== null && fast.next.next !== null) {
+    slow = slow.next!;
+    fast = fast.next.next!;
+  }
+
+  let pre = null;
+  while (slow !== null) {
+    const next = slow.next;
+    slow.next = pre;
+    pre = slow;
+    slow = next!;
+  }
+  slow = head;
+  let cur = pre;
+  while (slow !== null && pre !== null) {
+    if (slow.val !== pre?.val) return false;
+    slow = slow.next!;
+    pre = pre.next;
+  }
+  pre = null;
+  while (cur !== null) {
+    const next = cur.next;
+    cur.next = pre;
+    pre = cur;
+    cur = next;
+  }
+  return true;
+}
+
+```
+### 6. 将单向链表按某值划分成左边小、中间相等、右边大的形式
+
+解题思路:
+
+1. 使用6个变量将链表划分成小于区，等于区，大于区
+2. 然后小于尾连接等于头，等于尾连接大于头
+
+```typescript
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+function interval(head: ListNode | null, K: number): ListNode | null {
+  if (!head) return null;
+
+  // 小于区
+  let sH = null;
+  let sT = null;
+
+  // 等于区
+  let eH = null;
+  let eT = null;
+
+  // 大于区
+  let mH = null;
+  let mT = null;
+
+  // 划分区间
+  while (head !== null) {
+    const next: ListNode | null = head.next!;
+    if (head?.val < K) {
+      if (sH === null) {
+        sH = head;
+        sT = head;
+      } else {
+        (sT as ListNode).next = head;
+        sT = head;
+      }
+    }
+
+    if (head?.val === K) {
+      if (eH === null) {
+        eH = head;
+        eT = head;
+      } else {
+        (eT as ListNode).next = head;
+        eT = head;
+      }
+    }
+
+    if (head?.val > K) {
+      if (mH === null) {
+        mH = head;
+        mT = head;
+      } else {
+        (mT as ListNode).next = head;
+        mT = head;
+      }
+    }
+    head = next;
+  }
+
+  if (sH !== null) {
+    const nextHead = eH === null ? mH : eH;
+    (sT as ListNode).next = nextHead;
+  }
+
+  if (eH !== null) {
+    const nextHead = mH === null ? null : mH;
+    (eT as ListNode).next = nextHead;
+  }
+
+  return sH !== null ? sH : eH !== null ? eH : mH;
+}
+
+const head = new ListNode(3);
+head.next = new ListNode(7);
+head.next.next = new ListNode(2);
+head.next.next.next = new ListNode(4);
+head.next.next.next.next = new ListNode(5);
+
+const r = interval(head, 6);
+console.dir(r, { depth: 1000 });
+
+```
+### 7. [复制带随机指针的链表,要求时间复杂度O(N)，额外空间复杂度O(1)](https://leetcode.cn/problems/copy-list-with-random-pointer)
+
+解题思路:
+
+1. 将1->2->3->null构造成1->1'->2->2'->3->3'->null
+2. 设置random指针,这里不能设置next指针,因为后面的节点的random指针可能会指向前面的节点,如果设置了next指针,那么会找不到对应节点的克隆节点
+3. 分离原链表和克隆链表
+
+```typescript
+class Node {
+  val: number;
+  next: Node | null;
+  random: Node | null;
+  constructor(val?: number, next?: Node, random?: Node) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+    this.random = random === undefined ? null : random;
+  }
+}
+
+function copyRandomList(head: Node | null): Node | null {
+  if (!head) return null;
+  let cur = head;
+  // 1->2->3->null  to  1->1'->2->2'->3->3'->null
+  while (cur !== null) {
+    const next = cur.next;
+    cur.next = new Node(cur.val);
+    cur.next.next = next;
+    cur = next!;
+  }
+
+  // 设置random指针
+  cur = head;
+  while (cur !== null) {
+    const next = cur.next?.next;
+    cur.next!.random = cur.random !== null ? cur.random.next : null;
+    cur = next!;
+  }
+
+  // 分离
+  const res = head.next;
+  cur = head;
+  while (cur !== null) {
+    const next = cur.next?.next!;
+    cur.next!.next = next !== null ? next?.next : null;
+    cur.next = next;
+    cur = next!;
+  }
+  return res;
+}
 ```
