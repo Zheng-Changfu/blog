@@ -6,14 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "vuepress dev docs",
-    "build": "vuepress build docs",
-    "publish": "npm run build && node build/deploy.js"
+    "build": "vuepress build docs"
   },
   "dependencies": {
     "vuepress": "^1.8.2"
-  },
-  "devDependencies": {
-    "kolorist": "^1.5.1",
-    "node-ssh": "^12.0.4"
   }
 }

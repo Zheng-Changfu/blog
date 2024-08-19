@@ -170,7 +170,7 @@ export function initState(vm) {
 }
 
 function proxy(vm, source, key) {
-  Object.defineProperty(vm, key, {
+  Object.c(vm, key, {
     get() {
       return vm[source][key];
     },
