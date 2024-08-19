@@ -4,6 +4,7 @@
   "main": "index.js",
   "author": "Zheng-Changfu",
   "license": "MIT",
+  "packageManager": "pnpm@9.7.0",
   "scripts": {
     "start": "vuepress dev docs",
     "build": "vuepress build docs"
